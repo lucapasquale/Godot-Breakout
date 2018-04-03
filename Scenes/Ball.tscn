@@ -10,7 +10,6 @@ extents = Vector2( 9, 9 )
 
 [node name="Ball" type="RigidBody2D"]
 
-editor/display_folded = true
 position = Vector2( 288, 288 )
 input_pickable = false
 collision_layer = 1
@@ -31,7 +30,7 @@ linear_damp = 0.0
 angular_velocity = 0.0
 angular_damp = 0.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Angular", "Linear" ]
+speedup = 4
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

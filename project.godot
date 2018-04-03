@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="Test Pong"
-run/main_scene="res://Scenes/Node.tscn"
+run/main_scene="res://Scenes/Level One.tscn"
 config/icon="res://icon.png"
 
 [display]
