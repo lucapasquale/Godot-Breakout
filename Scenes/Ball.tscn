@@ -10,7 +10,6 @@ extents = Vector2( 9, 9 )
 
 [node name="Ball" type="RigidBody2D"]
 
-position = Vector2( 288, 288 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -25,12 +24,13 @@ contacts_reported = 1
 contact_monitor = true
 sleeping = false
 can_sleep = true
-linear_velocity = Vector2( 200, -200 )
+linear_velocity = Vector2( -200, -200 )
 linear_damp = 0.0
 angular_velocity = 0.0
 angular_damp = 0.0
 script = ExtResource( 1 )
-speedup = 4
+_sections_unfolded = [ "Linear", "Transform" ]
+speedup = 40
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
@@ -49,5 +49,13 @@ shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Visibility" type="VisibilityNotifier2D" parent="." index="2"]
+
+rect = Rect2( -10, -10, 20, 20 )
+
+[connection signal="body_entered" from="." to="." method="_on_Ball_body_entered"]
+
+[connection signal="viewport_exited" from="Visibility" to="." method="_on_Visibility_viewport_exited"]
 
 

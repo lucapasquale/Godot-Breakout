@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Level One.gd" type="Script" id=1]
-[ext_resource path="res://Scripts/Paddle.gd" type="Script" id=2]
-[ext_resource path="res://Textures/block.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/Ball.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Paddle.gd" type="Script" id=3]
+[ext_resource path="res://Textures/block.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Brick.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -14,6 +15,7 @@ extents = Vector2( 40, 8 )
 [node name="World" type="Node" index="0"]
 
 script = ExtResource( 1 )
+ball_scene = ExtResource( 2 )
 
 [node name="Paddle" type="KinematicBody2D" parent="." index="0"]
 
@@ -24,13 +26,13 @@ input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="Paddle" index="0"]
 
 scale = Vector2( 2.5, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 __meta__ = {
 "_edit_lock_": true
@@ -48,11 +50,34 @@ __meta__ = {
 position = Vector2( 0, 32 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Ball" parent="." index="1" instance=ExtResource( 4 )]
+[node name="StartPosition" type="Position2D" parent="." index="1"]
 
-[node name="Bricks" type="Node2D" parent="." index="2"]
+position = Vector2( 320, 250 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Walls" type="StaticBody2D" parent="." index="2"]
 
 editor/display_folded = true
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( 0, 368, 0, 0, 640, 0, 640, 368, 672, 368, 672, -32, -32, -32, -32, 368 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bricks" type="Node2D" parent="." index="3"]
+
+editor/display_folded = true
+position = Vector2( -52.6436, 10.083 )
 
 [node name="Brick" parent="Bricks" index="0" instance=ExtResource( 5 )]
 
@@ -74,41 +99,8 @@ position = Vector2( 384, 64 )
 
 position = Vector2( 464, 64 )
 
-[node name="Walls" type="StaticBody2D" parent="." index="3"]
+[node name="HUD" parent="." index="4" instance=ExtResource( 6 )]
 
-editor/display_folded = true
-input_pickable = false
-collision_layer = 1
-collision_mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls" index="0"]
-
-build_mode = 0
-polygon = PoolVector2Array( 0, 368, 0, 0, 640, 0, 640, 368, 672, 368, 672, -32, -32, -32, -32, 368 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Score" type="Label" parent="." index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
 
 
